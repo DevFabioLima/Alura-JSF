@@ -1,0 +1,21 @@
+package br.com.cursojsf.livraria.bean;
+
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean
+public class LivroBean {
+	private Livro livro = new Livro();
+
+	public Livro getLivro() {
+		return livro;
+	}
+	
+	
+	public void gravar() {
+		System.out.println("Titulo do livro " + this.livro.getTitulo());
+		System.out.print("Nome do autor " + this.livro.getAutor());
+		
+		this.livro = new Livro();
+	}
+
+}
