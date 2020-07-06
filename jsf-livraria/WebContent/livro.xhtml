@@ -1,63 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head />
 
-<h:body>
-	<h1>Novo Livro</h1>
-	<h:form>
-		<h:messages id="messages" />
-		<fieldset>
-			<legend>Dados do Livro</legend>
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">
+		Novo Livro
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<h:messages id="messages" globalOnly="true" />
+			<p:fieldset legend="Dados do livro">
 
-			<h:panelGrid columns="2">
-				<h:outputLabel value="Titulo:" for="titulo" />
-				<h:inputText id="titulo" value="#{livroBean.livro.titulo}"
-					required="true" requiredMessage="Titulo obrigatorio"
-					validatorMessage="Titulo não pode ser maior do que 40">
-					<f:validateLength maximum="40" />
-					<f:ajax event="blur" render="messages" />
-				</h:inputText>
-				<h:outputLabel value="ISBN:" for="isbn" />
-				<h:inputText id="isbn" value="#{livroBean.livro.isbn}"
-					validator="#{livroBean.comecaComDigitoUm}" />
-				<h:outputLabel value="Preço:" for="preco" />
-				<h:inputText id="preco" for="preco" value="#{livroBean.livro.preco}"
-					label="Preço"
-					validatorMessage="Valor não pode ser maior do que 1000.00 e nem menor que 1.0">
-					<f:validateDoubleRange minimum="1.00" maximum="1000.00" />
-					<f:ajax event="blur" render="messages" />
-				</h:inputText>
-				<h:outputLabel value="Data de Lançamento" for="dataLancamento" />
-				<h:inputText id="dataLancamento"
-					value="#{livroBean.livro.dataLancamento.time}">
-					<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
-				</h:inputText>
-				<h:commandButton value="Gravar" action="#{livroBean.gravar}">
-					<f:ajax execute="@form" render="messages" />
-				</h:commandButton>
-			</h:panelGrid>
-		</fieldset>
-		<fieldset>
-			<legend>Dados do Autor</legend>
-			<h:outputLabel value="Selecione Autor:" />
-			<h:selectOneMenu value="#{livroBean.livro.autor}" id="autor">
-				<f:selectItem itemLabel="Fabio" itemValue="Fabio" />
-				<f:selectItem itemLabel="João" itemValue="Joao" />
-				<f:selectItem itemLabel="Lucas" itemValue="Lucas" />
-			</h:selectOneMenu>
-			<h:commandButton value="Gravar Autor"
-				action="#{livroBean.gravarAutor}">
-				<f:ajax execute="autor" />
-			</h:commandButton>
-			<br />
-			<h:commandLink value="Cadastrar novo autor" action="autor" />
-		</fieldset>
-	</h:form>
-</h:body>
+
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Titulo:" for="titulo" />
+					<p:inputText id="titulo" value="#{livroBean.livro.titulo}"
+						required="true" requiredMessage="Titulo obrigatorio"
+						validatorMessage="Titulo não pode ser maior do que 40">
+						<f:validateLength maximum="40" />
+						<f:ajax event="blur" render="messages" />
+					</p:inputText>
+					<p:outputLabel value="ISBN:" for="isbn" />
+					<p:inputMask id="isbn" value="#{livroBean.livro.isbn}"
+						validator="#{livroBean.comecaComDigitoUm}" mask="999-9-99-999999" />
+					<p:outputLabel value="Preço:" for="preco" />
+					<p:inputText id="preco" for="preco"
+						value="#{livroBean.livro.preco}" label="Preço"
+						validatorMessage="Valor não pode ser maior do que 1000.00 e nem menor que 1.0">
+						<f:validateDoubleRange minimum="1.00" maximum="1000.00" />
+						<f:ajax event="blur" render="messages" />
+					</p:inputText>
+					<p:outputLabel value="Data de Lançamento" for="dataLancamento" />
+					<p:calendar id="dataLancamento"
+						value="#{livroBean.livro.dataLancamento.time}"
+						timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" />
+					<p:commandButton value="Gravar" action="#{livroBean.gravar}"
+						process="@form" update="@form">
+
+					</p:commandButton>
+				</p:panelGrid>
+			</p:fieldset>
+			<p:fieldset legend="Dados do Autor">
+				<p:panelGrid columns="4">
+					<p:outputLabel value="Selecione Autor:" />
+					<p:selectOneMenu value="#{livroBean.livro.autor}" id="autor">
+						<f:selectItem itemLabel="Fabio" itemValue="Fabio" />
+						<f:selectItem itemLabel="João" itemValue="Joao" />
+						<f:selectItem itemLabel="Lucas" itemValue="Lucas" />
+					</p:selectOneMenu>
+					<p:commandButton value="Gravar Autor"
+						action="#{livroBean.gravarAutor}" process="@this autor">
+
+					</p:commandButton>
+
+					<p:commandLink value="Cadastrar novo autor"
+						action="#{livroBean.formAutor}" immediate="true" update="@all" />
+				</p:panelGrid>
+			</p:fieldset>
+
+		</h:form>
+		<ui:define name="rodape">
+		Livro
+		</ui:define>
+	</ui:define>
+</ui:composition>
 
 
 </html>

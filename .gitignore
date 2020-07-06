@@ -8,3 +8,5 @@
 sources/web/.recommenders/*
 sources/web/.metadata/*
 sources/web/RemoteSystemsTempFiles/*
+/.metadata/
+/.recommenders/

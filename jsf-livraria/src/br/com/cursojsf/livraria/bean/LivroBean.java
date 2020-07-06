@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
 import br.com.cursojsf.livraria.modelo.Livro;
+import br.com.cursojsf.livraria.util.RedirectView;
 
 @ManagedBean
 public class LivroBean {
@@ -34,6 +35,11 @@ public class LivroBean {
 			throw new ValidatorException(new FacesMessage("Deveria começar com 1"));
 		}
 
+	}
+
+	public RedirectView formAutor() {
+		System.out.println("Chamando o formulário do Autor");
+		return new RedirectView("autor");
 	}
 
 }
